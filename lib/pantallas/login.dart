@@ -40,7 +40,11 @@ class _LoginPantallaState extends State<LoginPantalla> {
     setState(() => _cargando = false);
 
     if (error == null) {
-      Navigator.pop(context, true);
+      // Como pantalla inicial no hay nada que cerrar: el ArranquePantalla
+      // detecta la sesión y muestra la app. Como pantalla emergente sí se
+      // devuelve true a quien la abrió.
+      final navigator = Navigator.of(context);
+      if (navigator.canPop()) navigator.pop(true);
     } else {
       avisar(context, error, esError: true);
     }

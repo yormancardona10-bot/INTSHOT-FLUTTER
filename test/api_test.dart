@@ -68,7 +68,10 @@ void main() {
         throwsA(isA<ApiException>().having(
             (e) => e.mensaje,
             'mensaje',
-            allOf(contains('No se pudo conectar'), contains(':8000')))),
+            allOf(
+              contains('No se pudo conectar'),
+              contains('intshot.pythonanywhere.com'),
+            ))),
       );
     });
   });

@@ -111,6 +111,7 @@ class _MisPedidosPantallaState extends State<MisPedidosPantalla> {
       appBar: AppBar(
         title: const Text('Mis pedidos'),
         actions: [
+          const IconoNotificaciones(),
           IconButton(
             tooltip: 'Actualizar',
             onPressed: _cargando ? null : _cargar,
@@ -141,21 +142,55 @@ class _MisPedidosPantallaState extends State<MisPedidosPantalla> {
       return EstadoError(mensaje: _error!, onReintentar: _cargar);
     }
 
-    if (_pedidos.isEmpty) {
-      return const EstadoVacio(
-        icono: Icons.shopping_bag_outlined,
-        titulo: 'Sin pedidos todavía',
-        mensaje: 'Cuando realices tu primer pedido aparecerá aquí.',
-      );
-    }
+    final aviso = sesion.ultimoAvisoSeguridad;
 
-    return RefreshIndicator(
-      onRefresh: _cargar,
-      child: ListView.separated(
-        padding: const EdgeInsets.all(14),
-        itemCount: _pedidos.length,
-        separatorBuilder: (_, _) => const SizedBox(height: 12),
-        itemBuilder: (context, i) => _tarjeta(_pedidos[i]),
+    return Column(
+      children: [
+        if (aviso != null) _avisoSeguridad(aviso),
+        Expanded(
+          child: _pedidos.isEmpty
+              ? const EstadoVacio(
+                  icono: Icons.shopping_bag_outlined,
+                  titulo: 'Sin pedidos todavía',
+                  mensaje: 'Cuando realices tu primer pedido aparecerá aquí.',
+                )
+              : RefreshIndicator(
+                  onRefresh: _cargar,
+                  child: ListView.separated(
+                    padding: const EdgeInsets.all(14),
+                    itemCount: _pedidos.length,
+                    separatorBuilder: (_, _) => const SizedBox(height: 12),
+                    itemBuilder: (context, i) => _tarjeta(_pedidos[i]),
+                  ),
+                ),
+        ),
+      ],
+    );
+  }
+
+  Widget _avisoSeguridad(String mensaje) {
+    final c = Colores.of(context);
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.fromLTRB(14, 14, 14, 0),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: c.alertaSuave,
+        borderRadius: BorderRadius.circular(Colores.radioSm),
+        border: Border.all(color: c.alerta),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(Icons.shield_outlined, size: 18, color: c.alerta),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              mensaje,
+              style: TextStyle(fontSize: 12.5, color: c.texto, height: 1.35),
+            ),
+          ),
+        ],
       ),
     );
   }

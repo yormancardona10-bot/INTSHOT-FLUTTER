@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../pantallas/carrito.dart';
 import '../pantallas/login.dart';
 import '../pantallas/mis_pedidos.dart';
+import '../pantallas/notificaciones_pantalla.dart';
+import '../servicios/notificaciones.dart';
 import '../servicios/sesion.dart';
 import '../tema/colores.dart';
 
@@ -116,6 +118,40 @@ class IconoCarrito extends StatelessWidget {
                   label: Text('$unidades'),
                   backgroundColor: c.peligro,
                   child: const Icon(Icons.shopping_cart_outlined, size: 21),
+                )
+              : null,
+        );
+      },
+    );
+  }
+}
+
+// Campana con el número de avisos de pedidos sin leer.
+class IconoNotificaciones extends StatelessWidget {
+  const IconoNotificaciones({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final c = Colores.of(context);
+    return ListenableBuilder(
+      listenable: Listenable.merge([sesion, notificaciones]),
+      builder: (context, _) {
+        if (!sesion.logueado) return const SizedBox.shrink();
+        final sinLeer = notificaciones.noLeidas;
+        return _BotonBarra(
+          icono: Icons.notifications_none,
+          tooltip: 'Notificaciones',
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const NotificacionesPantalla(),
+            ),
+          ),
+          badge: sinLeer > 0
+              ? Badge(
+                  label: Text('$sinLeer'),
+                  backgroundColor: c.peligro,
+                  child: const Icon(Icons.notifications_none, size: 21),
                 )
               : null,
         );

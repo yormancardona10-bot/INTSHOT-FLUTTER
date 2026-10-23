@@ -16,6 +16,22 @@ class ApiException implements Exception {
 
   const ApiException(this.mensaje, {this.codigo});
 
+  // 401 siempre es sesión inválida. Un 403 solo se considera sesión inválida
+  // cuando el mensaje habla de autenticación, no cuando es una negativa de
+  // permisos sobre un recurso concreto.
+  bool get sesionInvalida {
+    if (codigo == 401) return true;
+    if (codigo != 403) return false;
+    final texto = mensaje.toLowerCase();
+    return texto.contains('sesi') ||
+        texto.contains('token') ||
+        texto.contains('autent') ||
+        texto.contains('authent') ||
+        texto.contains('credencial') ||
+        texto.contains('credential') ||
+        texto.contains('inicia sesión');
+  }
+
   @override
   String toString() => mensaje;
 }

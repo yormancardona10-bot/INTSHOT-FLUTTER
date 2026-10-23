@@ -49,7 +49,11 @@ class _InicioPantallaState extends State<InicioPantalla> {
     return Scaffold(
       appBar: AppBar(
         title: const _Marca(),
-        actions: const [IconoCarrito(), IconoCuenta()],
+        actions: const [
+          IconoNotificaciones(),
+          IconoCarrito(),
+          IconoCuenta(),
+        ],
       ),
       body: ListenableBuilder(
         listenable: sesion,
