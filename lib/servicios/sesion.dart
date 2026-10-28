@@ -337,6 +337,7 @@ class Sesion extends ChangeNotifier {
     }
     try {
       await api.registrarPago(pedidoId, metodo);
+      await notificaciones.registrarPago(pedidoId, metodo);
       await cargarCatalogo(silencioso: true);
       await sincronizarNotificacionesPedidos();
       return null;

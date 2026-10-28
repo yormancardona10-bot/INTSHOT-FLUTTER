@@ -55,8 +55,11 @@ class _LoginPantallaState extends State<LoginPantalla> {
       context,
       MaterialPageRoute(builder: (_) => const RegistroPantalla()),
     );
+    // Igual que al entrar: si el login es la pantalla inicial no se cierra,
+    // el ArranquePantalla ya muestra la tienda al detectar la sesión.
     if (creado == true && mounted) {
-      Navigator.pop(context, true);
+      final navigator = Navigator.of(context);
+      if (navigator.canPop()) navigator.pop(true);
     }
   }
 

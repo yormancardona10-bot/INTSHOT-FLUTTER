@@ -21,9 +21,11 @@ class _InicioPantallaState extends State<InicioPantalla> {
   @override
   void initState() {
     super.initState();
-    if (sesion.productos.isEmpty) {
-      sesion.cargarCatalogo();
-    }
+    // Se carga después del primer cuadro: pedir datos mientras se construye la
+    // pantalla avisaría a la sesión en plena construcción del árbol.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && sesion.productos.isEmpty) sesion.cargarCatalogo();
+    });
   }
 
   void _abrirCatalogo([String? categoria]) {

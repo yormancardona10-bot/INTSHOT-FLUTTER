@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Necesario para conectar con la API de Django (desarrollo y producción) -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- Notificaciones de los pedidos (Android 13 o superior) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <application
         android:label="INTSHOT"
         android:name="${applicationName}"

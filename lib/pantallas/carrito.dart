@@ -25,10 +25,11 @@ class _CarritoPantallaState extends State<CarritoPantalla> {
   @override
   void initState() {
     super.initState();
-    if (sesion.logueado) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || !sesion.logueado) return;
       sesion.cargarCarrito();
       if (sesion.productos.isEmpty) sesion.cargarCatalogo();
-    }
+    });
   }
 
   Future<void> _cambiarCantidad(ItemCarrito item, int delta) async {

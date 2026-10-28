@@ -28,9 +28,9 @@ class _CatalogoPantallaState extends State<CatalogoPantalla> {
     super.initState();
     _buscar = TextEditingController(text: widget.buscarInicial ?? '');
     _categoria = widget.categoriaInicial ?? '';
-    if (sesion.productos.isEmpty) {
-      sesion.cargarCatalogo();
-    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && sesion.productos.isEmpty) sesion.cargarCatalogo();
+    });
   }
 
   @override

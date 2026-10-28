@@ -297,22 +297,27 @@ class _MisPedidosPantallaState extends State<MisPedidosPantalla> {
         borderRadius: BorderRadius.circular(Colores.radioSm),
         border: Border.all(color: c.borde),
       ),
-      child: ExpansionTile(
-        tilePadding: const EdgeInsets.symmetric(horizontal: 12),
-        childrenPadding: const EdgeInsets.fromLTRB(12, 0, 12, 10),
-        iconColor: c.primario,
-        collapsedIconColor: c.textoSuave,
-        title: Text(
-          'Ver detalle',
-          style: TextStyle(
-            fontSize: 13.5,
-            fontWeight: FontWeight.w600,
-            color: c.texto,
+      // Material transparente: sin él el fondo del Container tapa el efecto
+      // al tocar el ExpansionTile
+      child: Material(
+        type: MaterialType.transparency,
+        child: ExpansionTile(
+          tilePadding: const EdgeInsets.symmetric(horizontal: 12),
+          childrenPadding: const EdgeInsets.fromLTRB(12, 0, 12, 10),
+          iconColor: c.primario,
+          collapsedIconColor: c.textoSuave,
+          title: Text(
+            'Ver detalle',
+            style: TextStyle(
+              fontSize: 13.5,
+              fontWeight: FontWeight.w600,
+              color: c.texto,
+            ),
           ),
+          children: [
+            for (final detalle in resumen.detalles) _filaDetalle(detalle),
+          ],
         ),
-        children: [
-          for (final detalle in resumen.detalles) _filaDetalle(detalle),
-        ],
       ),
     );
   }

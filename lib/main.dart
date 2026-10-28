@@ -18,6 +18,7 @@ class IntShotApp extends StatelessWidget {
       title: 'INTSHOT',
       debugShowCheckedModeBanner: false,
       scaffoldMessengerKey: messengerKey,
+      navigatorKey: navigatorKey,
       // Usa la paleta de la marca (la misma de la web de INTSHOT)
       theme: Tema.claro(),
       darkTheme: Tema.oscuro(),
